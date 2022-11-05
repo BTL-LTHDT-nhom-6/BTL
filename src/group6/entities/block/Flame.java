@@ -1,11 +1,9 @@
 package group6.entities.block;
 
 import group6.entities.Entity;
+import group6.entities.moveObjects.Enemy;
 import javafx.scene.canvas.GraphicsContext;
 import static group6.BombermanGame.*;
-import group6.entities.block.Brick;
-import group6.entities.moveObjects.Bomber;
-import group6.entities.moveObjects.Character;
 
 public class Flame extends Entity {
     protected String _direction;
@@ -31,14 +29,9 @@ public class Flame extends Entity {
     }
 
     private void createFlameSegments() {
-        _flameSegments = new FlameSegment[calculatePermitedDistance()];
-
-        /**
-         * biến last dùng để đánh dấu cho segment cuối cùng
-         */
-
+        _flameSegments = new FlameSegment[defineFlameLength()];
         // TODO: tạo các segment dưới đây
-        boolean last = false;
+        boolean last;
         int xa = x;
         int ya = y;
         for (int i = 0; i < _flameSegments.length; i++) {
@@ -51,9 +44,14 @@ public class Flame extends Entity {
                 case "left": xa--; break;
             }
             _flameSegments[i] = new FlameSegment(xa, ya, _direction, last);
-            if (bomberman.getX()/32 == xa && bomberman.getY()/32 == ya) bomberman.alive = false;
-            for (Character enemy : entities) {
-                if (enemy.getX() / 32 == xa && enemy.getY() / 32 == ya) enemy.alive = false;
+
+            if (bomberman.getX()/32 == xa && bomberman.getY()/32 == ya) bomberman.setAlive(false);
+
+            for (Enemy enemy : entities) {
+                if (enemy.getX() / 32 == xa && enemy.getY() / 32 == ya) enemy.setAlive(false);
+            }
+            if (last) {
+                posBomb[xa][ya] = POS_FLAME;
             }
         }
     }
@@ -62,7 +60,7 @@ public class Flame extends Entity {
      * Tính toán độ dài của Flame, nếu gặp vật cản là Brick/Wall, độ dài sẽ bị cắt ngắn
      * @return
      */
-    private int calculatePermitedDistance() {
+    private int defineFlameLength() {
         // TODO: thực hiện tính toán độ dài của Flame
         int radius = 0;
         int xa = x;
@@ -73,9 +71,8 @@ public class Flame extends Entity {
             if (_direction == "down") ya++;
             if (_direction == "left") xa--;
 
-            if (pos[xa][ya] == 2) break;
-            if (pos[xa][ya] == 3) {
-                posBomb[xa][ya] = POS_BOMB;
+            if (pos[xa][ya] == 2) break; //check Wall Collision
+            if (pos[xa][ya] == 3 || pos[xa][ya] == 1) { //check Brick Collision and Portal Position
                 radius++;
                 break;
             }

@@ -5,52 +5,53 @@ import group6.graphics.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import java.util.Iterator;
-
 import static group6.BombermanGame.*;
 import group6.entities.block.Brick;
 
 public class Bomb extends Entity {
-    protected static final int RADIUS = 1;
-    public static int animation = 0;
-    public int isBomb;
-    protected double _timeToExplode = 120; //2 seconds - thoi gian phat no
-    public int _timeAfter = 20;// thoi gian de no
+    private static final int RADIUS = 1; // maximum bomb radius
+    public static int animation = 0; // iterator for loading effect
+    public int statusBomb; // 0: empty, 1: putBomb, 2: exploding
+    protected double timeToExplode = 120; // ready to explode
+    public int timeAfter = 20;// time for exploding effect
     protected Flame[] _flames;
 
-
-    public Bomb(int xUnit, int yUnit, Image img, int isBomb) {
+    public Bomb(int xUnit, int yUnit, Image img, int statusBomb) {
         super(xUnit, yUnit, img);
-        this.isBomb = isBomb;
+        this.statusBomb = statusBomb;
     }
+    public int getRadius() {
+        return RADIUS;
+    }
+
 
     @Override
     public void render(GraphicsContext gc) {
-        if (isBomb == 2) {
+        if (statusBomb == 2) {
             renderFlames(gc);
-            explodedBomb(gc);
+            renderExplodedBomb(gc);
 
-        } else if (isBomb == 1) {
+        } else if (statusBomb == 1) {
             renderActiveBomb(gc);
         }
     }
 
     @Override
     public void update() {
-        if (_timeToExplode > 0)
-            _timeToExplode--;
+        if (timeToExplode > 0)
+            timeToExplode--;
         else {
-            if (isBomb == 1) {
-                explode();
+            if (statusBomb == 1) {
+                setFlames();
             }
-            if (_timeAfter > 0)
-                _timeAfter--;
+            if (timeAfter > 0)
+                timeAfter--;
             else {
-                isBomb = 0;
+                statusBomb = 0;
+                posBomb[this.x/32][this.y/32] = 0;
             }
         }
     }
-
-
 
     public void renderActiveBomb(GraphicsContext gc) {
         animation++;
@@ -59,7 +60,7 @@ public class Bomb extends Entity {
         super.render(gc);
     }
 
-    public void explodedBomb(GraphicsContext gc) {
+    public void renderExplodedBomb(GraphicsContext gc) {
         animation++;
         this.setImg(Sprite.movingSprite(Sprite.bomb_exploded,
                 Sprite.bomb_exploded1,
@@ -68,16 +69,14 @@ public class Bomb extends Entity {
         super.render(gc);
     }
 
-    public void explode() {
-         isBomb = 2;
-
+    public void setFlames() {
+         statusBomb = 2;
          // TODO: create flames
         _flames = new Flame[4];
-
-        _flames[0] = new Flame(x/32, y/32,"up",RADIUS);
-        _flames[1] = new Flame(x/32, y/32,"right",RADIUS);
-        _flames[2] = new Flame(x/32, y/32,"down",RADIUS);
-        _flames[3] = new Flame(x/32, y/32,"left",RADIUS);
+        _flames[0] = new Flame(x/32, y/32,"up", getRadius());
+        _flames[1] = new Flame(x/32, y/32,"right", getRadius());
+        _flames[2] = new Flame(x/32, y/32,"down", getRadius());
+        _flames[3] = new Flame(x/32, y/32,"left", getRadius());
     }
 
     public void renderFlames(GraphicsContext gc) {
@@ -85,7 +84,6 @@ public class Bomb extends Entity {
             _flames[i].render(gc);
         }
     }
-
 
 }
 

@@ -9,7 +9,7 @@ import static group6.BombermanGame.*;
 
 
 public class Brick extends Entity {
-    public int timeToDis = 20;
+    public int timeToDis = 30;
     public boolean destroyed = false;
     public static int trans = 0;
     public Brick(int x, int y, Image img) {
@@ -19,7 +19,7 @@ public class Brick extends Entity {
     private void checkHidden() {
         for (Entity entity : stillObjects) {
             if (entity instanceof Brick)
-                if (posBomb[entity.getX() / 32][entity.getY() / 32] == POS_BOMB) {
+                if (posBomb[entity.getX() / 32][entity.getY() / 32] == POS_FLAME) {
                     ((Brick) entity).destroyed = true;
                 }
         }
