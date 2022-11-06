@@ -15,15 +15,20 @@ public class Bomb extends Entity {
     protected double timeToExplode = 120; // ready to explode
     public int timeAfter = 20;// time for exploding effect
     protected Flame[] _flames;
+    private static int radius = RADIUS;
 
     public Bomb(int xUnit, int yUnit, Image img, int statusBomb) {
         super(xUnit, yUnit, img);
         this.statusBomb = statusBomb;
     }
-    public int getRadius() {
-        return RADIUS;
+
+    public int getBombRadius() {
+        return radius;
     }
 
+    public static void addBombRadius() {
+        radius += 2;
+    }
 
     @Override
     public void render(GraphicsContext gc) {
@@ -73,14 +78,14 @@ public class Bomb extends Entity {
          statusBomb = 2;
          // TODO: create flames
         _flames = new Flame[4];
-        _flames[0] = new Flame(x/32, y/32,"up", getRadius());
-        _flames[1] = new Flame(x/32, y/32,"right", getRadius());
-        _flames[2] = new Flame(x/32, y/32,"down", getRadius());
-        _flames[3] = new Flame(x/32, y/32,"left", getRadius());
+        _flames[0] = new Flame(x/32, y/32,"up", getBombRadius());
+        _flames[1] = new Flame(x/32, y/32,"right", getBombRadius());
+        _flames[2] = new Flame(x/32, y/32,"down", getBombRadius());
+        _flames[3] = new Flame(x/32, y/32,"left", getBombRadius());
     }
 
     public void renderFlames(GraphicsContext gc) {
-        for (int i = 0; i < _flames.length; i++) {
+        for (int i = 0; i < _flames.length; ++i) {
             _flames[i].render(gc);
         }
     }

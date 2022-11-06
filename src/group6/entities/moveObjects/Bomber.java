@@ -14,10 +14,11 @@ public class Bomber extends Entity {
     private boolean alive = true;
     private String direction;
     protected int animation = 0; // iterator for loading Animation
-    private int loadKilled = 0;
-    public int timeToRevive = 10;
-    public int totalTime = 30; // time to load an effect
-    public int timetoMove = 0; // time to move and load animation
+    public int loadKilled = 0;
+    private int timeToRevive = 10;
+    private int totalTime = 30; // time to load an effect
+    public int timeToMove = 0; // time to move and load animations
+    private int bomberSpeed = SPEED;
 
     public Bomber(int x, int y, String direction, Image img) {
         super(x, y, img);
@@ -25,7 +26,10 @@ public class Bomber extends Entity {
     }
 
     public int getSpeed() {
-        return SPEED;
+        return bomberSpeed;
+    }
+    public void increaseSpeed() {
+        bomberSpeed += 2;
     }
 
     public boolean isAlive() {
@@ -34,6 +38,14 @@ public class Bomber extends Entity {
 
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public void setTotalTime(int totalTime) {
+        this.totalTime = totalTime;
+    }
+
+    public void setTimeToRevive(int timeToRevive) {
+        this.timeToRevive = timeToRevive;
     }
 
     @Override
@@ -90,7 +102,7 @@ public class Bomber extends Entity {
                 int by = enemy.getY();
                 if (ax == bx && by - 32 <= ay && by + 32 >= ay
                         || ay == by && bx - 32 <= ax && bx + 32 >= ax) {
-                    bomberman.alive = false;
+                    bomberman.setAlive(false);
                     break;
                 }
             }
@@ -103,7 +115,7 @@ public class Bomber extends Entity {
                 Sprite.player_dead2,
                 Sprite.player_dead3,
                 loadKilled, 60).getFxImage();
-        gc.drawImage(img, this.x, this.y);
+        super.render(gc);
     }
 
 
@@ -112,7 +124,7 @@ public class Bomber extends Entity {
             if (pos[this.getX() / 32+1][this.getY() / 32] == 0
                     && posBomb[this.x / 32+1][this.y / 32] != POS_BOMB) {
                 direction = "right";
-                timetoMove = 32/getSpeed();
+                timeToMove = 32/getSpeed();
             }
         }
     }
@@ -121,7 +133,7 @@ public class Bomber extends Entity {
             if (pos[this.getX() / 32][this.getY() / 32 - 1] == 0
                     && posBomb[this.x / 32][this.y / 32-1] != POS_BOMB) {
                 direction = "up";
-                timetoMove = 32/getSpeed();
+                timeToMove = 32/getSpeed();
             }
         }
     }
@@ -130,7 +142,7 @@ public class Bomber extends Entity {
             if (pos[this.getX() / 32][this.getY() / 32 + 1] == 0
                     && posBomb[this.x / 32][this.y / 32+1] != POS_BOMB) {
                 direction = "down";
-                timetoMove = 32/getSpeed();
+                timeToMove = 32/getSpeed();
             }
         }
 
@@ -140,41 +152,41 @@ public class Bomber extends Entity {
             if (pos[this.getX() / 32 - 1][this.getY() / 32] == 0
                     && posBomb[this.x / 32-1][this.y / 32] != POS_BOMB) {
                 direction = "left";
-                timetoMove = 32/getSpeed();
+                timeToMove = 32/getSpeed();
             }
         }
     }
 
     public void moveRight() {
-            if (timetoMove > 0) {
+            if (timeToMove > 0) {
                 this.setX(this.getX() + getSpeed());
                 movingAnimation();
-                timetoMove--;
+                timeToMove--;
             }
     }
 
     public void moveLeft() {
-            if (timetoMove > 0) {
+            if (timeToMove > 0) {
                 this.setX(this.getX() - getSpeed());
                 movingAnimation();
-                timetoMove--;
+                timeToMove--;
             }
     }
 
     public void moveDown() {
-            if (timetoMove > 0) {
+            if (timeToMove > 0) {
                 this.setY(this.getY() + getSpeed());
                 movingAnimation();
-                timetoMove--;
+                timeToMove--;
             }
     }
 
 
     public void moveUp() {
-            if (timetoMove > 0) {
+            if (timeToMove > 0) {
                 this.setY(this.getY() - getSpeed());
                 movingAnimation();
-                timetoMove--;
+                timeToMove--;
             }
     }
 

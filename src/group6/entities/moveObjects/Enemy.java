@@ -13,8 +13,8 @@ public abstract class Enemy extends Entity {
     protected boolean removed =  false;
     protected int speed;
     protected boolean isMoving = true;
-    public int timetoMove = 0;
-    protected int timeDis = 20;
+    public int timeToMove = 0;
+    protected int timeDis = 20; // time for disappear effects
 
     public boolean isAlive() {
         return alive;
@@ -49,7 +49,7 @@ public abstract class Enemy extends Entity {
             if (pos[this.x / 32+1][this.y / 32] == 0
                     && posBomb[this.x / 32+1][this.y / 32] != POS_BOMB) {
                 direction = "right";
-                timetoMove = 32/getSpeed();
+                timeToMove = 32/getSpeed();
             } else isMoving = false;
         }
     }
@@ -58,7 +58,7 @@ public abstract class Enemy extends Entity {
             if (pos[this.x / 32][this.y / 32 - 1] == 0
                     && posBomb[this.x / 32][this.y / 32 - 1] != POS_BOMB) {
                 direction = "up";
-                timetoMove = 32/getSpeed();
+                timeToMove = 32/getSpeed();
             } else isMoving = false;
         }
     }
@@ -67,7 +67,7 @@ public abstract class Enemy extends Entity {
             if (pos[this.x / 32][this.y / 32 + 1] == 0
                     && posBomb[this.x / 32][this.y / 32 + 1] != POS_BOMB) {
                 direction = "down";
-                timetoMove = 32/getSpeed();
+                timeToMove = 32/getSpeed();
             } else isMoving = false;
         }
 
@@ -77,44 +77,44 @@ public abstract class Enemy extends Entity {
             if (pos[this.x / 32-1][this.y / 32] == 0
                     && posBomb[this.x / 32 - 1][this.y / 32] != POS_BOMB) {
                 direction = "left";
-                timetoMove = 32/getSpeed();
+                timeToMove = 32/getSpeed();
             } else isMoving = false;
         }
     }
 
 
     public void moveRight() {
-        if (timetoMove > 0) {
+        if (timeToMove > 0) {
             this.x += speed;
             runningAnimation();
-            timetoMove--;
+            timeToMove--;
         }
     }
 
 
     public void moveLeft() {
-        if (timetoMove > 0) {
+        if (timeToMove > 0) {
             this.x -= speed;
             runningAnimation();
-            timetoMove--;
+            timeToMove--;
         }
     }
 
 
     public void moveDown() {
-        if (timetoMove > 0) {
+        if (timeToMove > 0) {
             this.y += speed;
             runningAnimation();
-            timetoMove--;
+            timeToMove--;
         }
     }
 
 
     public void moveUp() {
-        if (timetoMove > 0) {
+        if (timeToMove > 0) {
             this.y -= speed;
             runningAnimation();
-            timetoMove--;
+            timeToMove--;
         }
     }
 

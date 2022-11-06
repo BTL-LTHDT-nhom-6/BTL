@@ -9,16 +9,15 @@ import static group6.BombermanGame.*;
 import static group6.BombermanGame.pos;
 
 public class Portal extends Entity {
-    public static boolean isPortal;
     public int timeToDis = 30;
-    public boolean destroyed = false;
-    public static int trans = 0;
+    public boolean destroyed = false;  // check if brick destroyed
+    public int transition = 0; // iterator used to load brick explosion
 
     public Portal(int x, int y, Image img) {
         super(x, y, img);
     }
 
-    private void checkHidden() {
+    private void clearBrick() {
         for (Entity entity : stillObjects) {
             if (entity instanceof Portal)
                 if (posBomb[entity.getX() / 32][entity.getY() / 32] == POS_FLAME) {
@@ -27,17 +26,28 @@ public class Portal extends Entity {
         }
     }
 
-    public void explodedBrick(GraphicsContext gc) {
-        trans ++;
+    public static boolean intoPortal() {
+        for (Entity entity : stillObjects) {
+            if (entity instanceof Portal) {
+                if (bomberman.getX() / 32 == entity.getX() / 32
+                        && bomberman.getY() / 32 == entity.getY() / 32) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void explodedBrick() {
+        transition ++;
         this.setImg(Sprite.movingSprite(Sprite.brick_exploded,
                 Sprite.brick_exploded1,
-                Sprite.brick_exploded2, trans, 60).getFxImage());
-        super.render(gc);
+                Sprite.brick_exploded2, transition, 60).getFxImage());
     }
 
     @Override
     public void update() {
-        checkHidden();
+        clearBrick();
         if (this.destroyed) {
             if (timeToDis > 0) {
                 timeToDis--;
@@ -49,7 +59,7 @@ public class Portal extends Entity {
     @Override
     public void render(GraphicsContext gc) {
         if (this.destroyed) {
-            if (timeToDis > 0) explodedBrick(gc);
+            if (timeToDis > 0) explodedBrick();
             else {
                 this.setImg(Sprite.portal.getFxImage());
 

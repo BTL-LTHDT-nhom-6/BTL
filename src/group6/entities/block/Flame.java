@@ -8,34 +8,39 @@ import static group6.BombermanGame.*;
 public class Flame extends Entity {
     protected String _direction;
     private int _radius;
-    protected int xOrigin, yOrigin;
-    protected FlameSegment[] _flameSegments = new FlameSegment[0];
+    protected FlameSegment[] flameSegments = new FlameSegment[0];
 
-    /**
-     *
-     * @param x hoành độ bắt đầu của Flame
-     * @param y tung độ bắt đầu của Flame
-     * @param direction là hướng của Flame
-     * @param radius độ dài cực đại của Flame
-     */
+
     public Flame(int x, int y, String direction, int radius) {
-        xOrigin = x;
-        yOrigin = y;
         this.x = x;
         this.y = y;
         _direction = direction;
         _radius = radius;
-        createFlameSegments();
+        drawFlameSegments();
     }
 
-    private void createFlameSegments() {
-        _flameSegments = new FlameSegment[defineFlameLength()];
-        // TODO: tạo các segment dưới đây
+    @Override
+    public void update() {
+    }
+
+
+    @Override
+    public void render(GraphicsContext gc) {
+        for (int i = 0; i < flameSegments.length; ++i) {
+            flameSegments[i].render(gc);
+        }
+    }
+
+    /**
+     * create new flame segments with max radius.
+     */
+    private void drawFlameSegments() {
+        flameSegments = new FlameSegment[defineFlameLength()];
         boolean last;
         int xa = x;
         int ya = y;
-        for (int i = 0; i < _flameSegments.length; i++) {
-            last = i == _flameSegments.length -1 ? true : false;
+        for (int i = 0; i < flameSegments.length; i++) {
+            last = i == flameSegments.length -1 ? true : false;
 
             switch (_direction) {
                 case "up": ya--; break;
@@ -43,7 +48,7 @@ public class Flame extends Entity {
                 case "down": ya++; break;
                 case "left": xa--; break;
             }
-            _flameSegments[i] = new FlameSegment(xa, ya, _direction, last);
+            flameSegments[i] = new FlameSegment(xa, ya, _direction, last);
 
             if (bomberman.getX()/32 == xa && bomberman.getY()/32 == ya) bomberman.setAlive(false);
 
@@ -57,42 +62,30 @@ public class Flame extends Entity {
     }
 
     /**
-     * Tính toán độ dài của Flame, nếu gặp vật cản là Brick/Wall, độ dài sẽ bị cắt ngắn
-     * @return
+        define maximum length of flames.
      */
     private int defineFlameLength() {
-        // TODO: thực hiện tính toán độ dài của Flame
-        int radius = 0;
+        int maxRadius = 0;
         int xa = x;
         int ya = y;
-        while (radius < _radius) {
-            if (_direction == "up") ya--;
-            if (_direction == "right") xa++;
-            if (_direction == "down") ya++;
-            if (_direction == "left") xa--;
+        while (maxRadius < _radius) {
+            if (_direction.equals("up")) ya--;
+            if (_direction.equals("right")) xa++;
+            if (_direction.equals("down")) ya++;
+            if (_direction.equals("left")) xa--;
 
-            if (pos[xa][ya] == 2) break; //check Wall Collision
-            if (pos[xa][ya] == 3 || pos[xa][ya] == 1) { //check Brick Collision and Portal Position
-                radius++;
+            //check Wall Collision
+            if (pos[xa][ya] == 2) break;
+            //check Brick Collision and Portal Position
+            if (pos[xa][ya] == 3 || pos[xa][ya] == 1) {
+                maxRadius++;
                 break;
             }
-            radius++;
+
+            maxRadius++;
         }
-        return radius;
+        return maxRadius;
     }
 
 
-
-    @Override
-    public void update() {
-    }
-
-
-
-    @Override
-    public void render(GraphicsContext gc) {
-        for (int i = 0; i < _flameSegments.length; ++i) {
-            _flameSegments[i].render(gc);
-        }
-    }
 }

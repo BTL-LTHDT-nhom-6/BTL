@@ -7,21 +7,37 @@ import javafx.scene.canvas.GraphicsContext;
 
 
 public class FlameSegment extends Entity {
-    protected boolean _last;
+    protected boolean max; // define last segment
     protected int ani = 0;
     protected String direction;
 
-    public FlameSegment(int x, int y, String direction, boolean last) {
+    public FlameSegment(int x, int y, String direction, boolean max) {
         this.x = x;
         this.y = y;
-        _last = last;
+        this.max = max;
         this.direction = direction;
     }
 
-    public void loadSegment(String direction, boolean last) {
+    @Override
+    public void render(GraphicsContext gc) {
+        ani++;
+        int xa = x << 5;
+        int ya = y << 5;
+        loadSegment(direction, max);
+        this.setImg(_sprite.getFxImage());
+        gc.drawImage(this.getImg(), xa, ya);
+    }
+
+    @Override
+    public void update() {
+
+
+    }
+
+    public void loadSegment(String direction, boolean max) {
         switch (direction) {
             case "up":
-                if(!last) {
+                if(!max) {
                     _sprite = Sprite.movingSprite(Sprite.explosion_vertical,
                             Sprite.explosion_vertical1,
                             Sprite.explosion_vertical2, ani, 60);
@@ -32,7 +48,7 @@ public class FlameSegment extends Entity {
                 }
                 break;
             case "right":
-                if(!last) {
+                if(!max) {
                     _sprite = Sprite.movingSprite(Sprite.explosion_horizontal,
                             Sprite.explosion_horizontal1,
                             Sprite.explosion_horizontal2, ani, 60);
@@ -43,7 +59,7 @@ public class FlameSegment extends Entity {
                 }
                 break;
             case "down":
-                if(!last) {
+                if(!max) {
                     _sprite = Sprite.movingSprite(Sprite.explosion_vertical,
                             Sprite.explosion_vertical1,
                             Sprite.explosion_vertical2, ani, 60);
@@ -54,7 +70,7 @@ public class FlameSegment extends Entity {
                 }
                 break;
             case "left":
-                if(!last) {
+                if(!max) {
                     _sprite = Sprite.movingSprite(Sprite.explosion_horizontal,
                             Sprite.explosion_horizontal1,
                             Sprite.explosion_horizontal2, ani, 60);
@@ -67,18 +83,6 @@ public class FlameSegment extends Entity {
         }
     }
 
-    @Override
-    public void render(GraphicsContext gc) {
-        ani++;
-        int xa = x << 5;
-        int ya = y << 5;
-        loadSegment(direction, _last);
-        this.setImg(_sprite.getFxImage());
-        gc.drawImage(this.getImg(), xa, ya);
-    }
 
-    @Override
-    public void update() {
-    }
 
 }

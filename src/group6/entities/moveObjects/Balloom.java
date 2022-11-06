@@ -15,8 +15,8 @@ public class Balloom extends Enemy {
 
     @Override
     protected void runningAnimation() {
-        animation++
-        ;
+        animation++;
+
         if (direction.equals("up") || direction.equals("right")) {
             _sprite = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, animation, time);
             this.setImg(_sprite.getFxImage());

@@ -39,13 +39,13 @@ public class Doll extends Enemy {
 
     @Override
     public void update() {
-        if (!this.isAlive()) {
+        if (!isAlive()) {
             if (timeDis > 0) timeDis--;
             else this.setRemoved(true);
             return;
         }
 
-        if (this.isAlive()) {
+        if (isAlive()) {
             if (!isMoving) {
                 Random random = new Random();
                 int randomDirection = random.nextInt(4);
