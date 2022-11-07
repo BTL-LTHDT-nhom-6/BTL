@@ -78,6 +78,9 @@ public class OneAl extends Enemy {
 
     Random random = new Random();
 
+    /**
+     * Simple AI bomber moving.
+     */
     public void randomDirection() {
         if (!bomberman.isAlive()) direction = normalMoving();
         else {
@@ -94,6 +97,10 @@ public class OneAl extends Enemy {
         }
     }
 
+    /**
+     * Detect bomber moving up or down.
+     * @return vertical direction.
+     */
     public String verticalMoving() {
         if (bomberman.getY() / 32 < this.getY() / 32) {
             return "up";
@@ -103,6 +110,10 @@ public class OneAl extends Enemy {
         return null;
     }
 
+    /**
+     * Detect bomber moving left or right.
+     * @return horizontal direction.
+     */
     public String horizontalMoving() {
         if (bomberman.getX() / 32 < this.getX() / 32) {
             return "left";

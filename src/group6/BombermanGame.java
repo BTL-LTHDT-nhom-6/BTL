@@ -8,10 +8,12 @@ import group6.level.*;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import group6.entities.Entity;
@@ -43,9 +45,16 @@ public class BombermanGame extends Application {
     public static boolean running = true;
     private long previousTime;
     public static ImageView authorView;
+    public static boolean check = false;
+
 
     public static void main(String[] args) {
-        Application.launch(BombermanGame.class);
+         Application.launch(BombermanGame.class);
+        //Menu menu = new Menu();
+        //        menu.p();
+        //GameOver a = new GameOver();
+        //a.p();
+
     }
 
     @Override
@@ -54,22 +63,22 @@ public class BombermanGame extends Application {
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         canvas.setTranslateY(32);
         gc = canvas.getGraphicsContext2D();
+        Image author = new Image("/menu.png");
+        authorView = new ImageView(author);
+        authorView.setX(0);
+        authorView.setY(32);
 
         // Tao root container
         Group root = new Group();
         LevelUp.createIndex(root);
         root.getChildren().add(canvas);
-
+        root.getChildren().add(authorView);
         // Tao scene
         Scene scene = new Scene(root);
 
         // Add scene vao stage
         stage.setScene(scene);
         stage.show();
-
-        bomberman = new Bomber(1,1,"right", Sprite.player_right.getFxImage());
-        new Level2();
-
 
         scene.setOnKeyPressed(event -> {
             if (bomberman.isAlive()) {
@@ -101,14 +110,16 @@ public class BombermanGame extends Application {
                 if (running) {
                     render();
                     update();
-                    nextLevel(root);
                     countDown();
                     updateIndex();
                 }
             }
         };
         timer.start();
+        bomberman = new Bomber(1,1,"right", Sprite.player_right.getFxImage());
+
     }
+
 
     
     public void update() {
@@ -125,7 +136,7 @@ public class BombermanGame extends Application {
             nextLevel = true;
             timeToExchange = System.currentTimeMillis();
         }
-
+        nextLevel();
     }
 
     public void render() {

@@ -3,12 +3,17 @@ package group6.level;
 import group6.entities.moveObjects.*;
 import group6.graphics.Map;
 import group6.graphics.Sprite;
+import javafx.scene.image.Image;
 
 import static group6.BombermanGame.*;
 
 public class Level1 {
     public Level1() {
+        Image transparent = new Image("/transparent.png");
+        authorView.setImage(transparent);
         Map.createMap("res/levels/Level1.txt");
+        bomberman.setImg(Sprite.player_right.getFxImage());
+        check = true;
         bomberman.setTotalTime(30);
         bomberman.setTimeToRevive(10);
         bomberman.setX(32);

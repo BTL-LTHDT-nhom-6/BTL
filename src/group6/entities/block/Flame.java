@@ -10,7 +10,6 @@ public class Flame extends Entity {
     private int _radius;
     protected FlameSegment[] flameSegments = new FlameSegment[0];
 
-
     public Flame(int x, int y, String direction, int radius) {
         this.x = x;
         this.y = y;
@@ -80,7 +79,6 @@ public class Flame extends Entity {
                 maxRadius++;
                 break;
             }
-
             maxRadius++;
         }
         return maxRadius;

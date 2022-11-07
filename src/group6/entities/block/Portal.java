@@ -26,6 +26,9 @@ public class Portal extends Entity {
         }
     }
 
+    /**
+     * Detect if bomberman went into portal.
+     */
     public static boolean intoPortal() {
         for (Entity entity : stillObjects) {
             if (entity instanceof Portal) {

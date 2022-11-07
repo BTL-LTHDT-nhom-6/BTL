@@ -60,6 +60,10 @@ public class Bomber extends Entity {
                 case "right": moveRight();break;
                 case "left": moveLeft();break;
             }
+        } else {
+            running = false;
+            Image gameOver = new Image("/gameOver.png");
+            authorView.setImage(gameOver);
         }
     }
 
@@ -72,7 +76,9 @@ public class Bomber extends Entity {
                 deadAnimation(gc);
                 timeToRevive--;
             }
+            check = false;
         }
+
     }
 
     public  void putBomb() {

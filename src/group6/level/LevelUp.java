@@ -38,7 +38,7 @@ public class LevelUp {
         point.setX(608);
         point.setY(20);
 
-        Image pauseGame = new Image("/textures/pauseGame.png");
+        Image pauseGame = new Image("/textures/newGame.png");
         statusGame = new ImageView(pauseGame);
         statusGame.setX(-75);
         statusGame.setY(-10);
@@ -54,8 +54,11 @@ public class LevelUp {
         root.getChildren().add(pane);
 
         statusGame.setOnMouseClicked(event -> {
-            if (bomberman.isAlive()) {
+            if (check) {
                 running = !running;
+            } else {
+                new Level1();
+                running = true;
             }
             updateIndex();
         });
@@ -65,24 +68,23 @@ public class LevelUp {
     public static void updateIndex() {
         level.setText("Level: " + _level);
         point.setText("Point: " + _point);
-        if (bomberman.isAlive()) {
+        if (check) {
             if (running) {
                 Image pauseGame = new Image("/textures/pauseGame.png");
                 statusGame.setImage(pauseGame);
+
             } else {
                 Image playGame = new Image("/textures/playGame.png");
                 statusGame.setImage(playGame);
             }
+        } else {
+            Image newGame = new Image("/textures/newGame.png");
+            statusGame.setImage(newGame);
         }
     }
 
-    public static void nextLevel(Group root) {
+    public static void nextLevel() {
         if (nextLevel) {
-            Image waitToNext = new Image("/textures/up.png");
-            authorView = new ImageView(waitToNext);
-            authorView.setX(0);
-            authorView.setY(0);
-            root.getChildren().add(authorView);
             long now = System.currentTimeMillis();
             if (now - timeToExchange > 3000) {
                 switch (_level) {
