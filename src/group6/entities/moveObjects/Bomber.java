@@ -63,7 +63,8 @@ public class Bomber extends Entity {
         } else {
             running = false;
             Image gameOver = new Image("/gameOver.png");
-            authorView.setImage(gameOver);
+            gameView.setImage(gameOver);
+            exit.setImage(new Image("/exitButton1.png"));
         }
     }
 

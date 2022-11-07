@@ -44,16 +44,17 @@ public class BombermanGame extends Application {
     public static int[][] posBomb;
     public static boolean running = true;
     private long previousTime;
-    public static ImageView authorView;
+    public static ImageView gameView;
     public static boolean check = false;
+    public static ImageView start;
+    public static ImageView exit;
+    public static boolean soundOn = true;
 
 
     public static void main(String[] args) {
-         Application.launch(BombermanGame.class);
-        //Menu menu = new Menu();
-        //        menu.p();
-        //GameOver a = new GameOver();
-        //a.p();
+        Sound sound = new Sound(soundOn);
+        sound.soundPlayLV2();
+        Application.launch(BombermanGame.class);
 
     }
 
@@ -64,21 +65,28 @@ public class BombermanGame extends Application {
         canvas.setTranslateY(32);
         gc = canvas.getGraphicsContext2D();
         Image author = new Image("/menu.png");
-        authorView = new ImageView(author);
-        authorView.setX(0);
-        authorView.setY(32);
+        gameView = new ImageView(author);
+        gameView.setX(0);
+        gameView.setY(0);
+        start = new ImageView(new Image("/startButton1.png"));
+        start.setX(215);
+        start.setY(250);
+        exit = new ImageView(new Image("/exitButton1.png"));
+        exit.setX(608);
+        exit.setY(250);
 
         // Tao root container
         Group root = new Group();
         LevelUp.createIndex(root);
-        root.getChildren().add(canvas);
-        root.getChildren().add(authorView);
+        root.getChildren().addAll(canvas, gameView, start, exit);
         // Tao scene
         Scene scene = new Scene(root);
 
         // Add scene vao stage
         stage.setScene(scene);
         stage.show();
+
+        exit.setOnMouseClicked(e -> System.exit(0));
 
         scene.setOnKeyPressed(event -> {
             if (bomberman.isAlive()) {
@@ -98,11 +106,21 @@ public class BombermanGame extends Application {
                     case SPACE:
                         bomberman.putBomb();
                         break;
+                    case A:
+                        entities.clear();
+                        break;
                 }
             }
         });
 
         previousTime = System.currentTimeMillis();
+
+
+
+        start.setOnMouseClicked(event -> {
+            new Level1();
+            running = true;
+        });
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -117,7 +135,6 @@ public class BombermanGame extends Application {
         };
         timer.start();
         bomberman = new Bomber(1,1,"right", Sprite.player_right.getFxImage());
-
     }
 
 

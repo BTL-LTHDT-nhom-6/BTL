@@ -1,9 +1,11 @@
 package group6.entities.block;
 
+import group6.Sound;
 import group6.entities.Entity;
 import group6.entities.moveObjects.Enemy;
 import javafx.scene.canvas.GraphicsContext;
 import static group6.BombermanGame.*;
+import static group6.BombermanGame.soundOn;
 
 public class Flame extends Entity {
     protected String _direction;
@@ -16,6 +18,8 @@ public class Flame extends Entity {
         _direction = direction;
         _radius = radius;
         drawFlameSegments();
+        Sound a = new Sound(soundOn);
+        a.soundBomb();
     }
 
     @Override
@@ -39,7 +43,7 @@ public class Flame extends Entity {
         int xa = x;
         int ya = y;
         for (int i = 0; i < flameSegments.length; i++) {
-            last = i == flameSegments.length -1 ? true : false;
+            last = i == flameSegments.length -1;
             switch (_direction) {
                 case "up": ya--; break;
                 case "right": xa++; break;

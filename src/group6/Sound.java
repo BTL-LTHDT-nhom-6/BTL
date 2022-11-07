@@ -5,40 +5,71 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class Sound {
-    Sound() {
+    private boolean boolSound = true;
+
+    public void setBoolSound(boolean boolSound) {
+        this.boolSound = boolSound;
     }
 
-    public synchronized void soundEnd() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Clip clip = AudioSystem.getClip();
-                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/just_died.wav"));
-                    clip.open(audioInputStream);
-                    clip.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
+    public Sound(boolean a) {
+        setBoolSound(a);
     }
-    public synchronized void soundPlay() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Clip clip = AudioSystem.getClip();
-                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/title_screen.wav"));
-                    clip.open(audioInputStream);
-                    clip.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+    public synchronized void soundItem() {
+        if (this.boolSound) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/item-39146.wav"));
+                        clip.open(audioInputStream);
+                        clip.start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-        thread.start();
+            });
+            thread.start();
+        }
+    }
+    public synchronized void soundPlayLV1() {
+        if (this.boolSound) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/title_screen.wav"));
+                        clip.open(audioInputStream);
+                        clip.start();
+                        clip.loop(20);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+        }
+    }
+    public synchronized void soundPlayLV2() {
+        if (this.boolSound) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/soundGame.wav"));
+                        clip.open(audioInputStream);
+                        clip.start();
+                        clip.loop(28);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+        }
     }
     public synchronized void soundBomb() {
         Thread thread = new Thread(new Runnable() {
@@ -46,7 +77,7 @@ public class Sound {
             public void run() {
                 try {
                     Clip clip = AudioSystem.getClip();
-                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/bomb_explosion.wav"));
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/Explosion7.wav"));
                     clip.open(audioInputStream);
                     clip.start();
                 } catch (Exception e) {
@@ -57,19 +88,39 @@ public class Sound {
         thread.start();
     }
     public synchronized void soundNextLevel() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Clip clip = AudioSystem.getClip();
-                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/level_complete.wav"));
-                    clip.open(audioInputStream);
-                    clip.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (this.boolSound) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/level_complete.wav"));
+                        clip.open(audioInputStream);
+                        clip.start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-        thread.start();
+            });
+            thread.start();
+        }
+    }
+    public synchronized void soundEnd() {
+        if (this.boolSound) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/Sound/die.wav"));
+                        clip.open(audioInputStream);
+                        clip.start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+        }
     }
 }

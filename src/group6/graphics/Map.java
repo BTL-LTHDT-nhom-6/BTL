@@ -15,7 +15,6 @@ import java.util.StringTokenizer;
 
 public class Map {
 
-
     public static void createMap(String map) {
         final File fileMap = new File(map);
         try {
