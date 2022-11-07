@@ -32,7 +32,7 @@ public class Flame extends Entity {
     }
 
     /**
-     * create new flame segments with max radius.
+     * Create new flame segments with max radius.
      */
     private void drawFlameSegments() {
         flameSegments = new FlameSegment[defineFlameLength()];
@@ -41,7 +41,6 @@ public class Flame extends Entity {
         int ya = y;
         for (int i = 0; i < flameSegments.length; i++) {
             last = i == flameSegments.length -1 ? true : false;
-
             switch (_direction) {
                 case "up": ya--; break;
                 case "right": xa++; break;

@@ -17,10 +17,12 @@ public class Level2 {
         bomberman.setX(32);
         bomberman.setY(32);
         bomberman.setAlive(true);
-        entities.add(new Balloom(3, 13, Sprite.balloom_left1.getFxImage(), "down"));
-        entities.add(new Balloom(9, 9, Sprite.balloom_left1.getFxImage(), "down"));
+        entities.add(new Balloom(26, 3, Sprite.balloom_left1.getFxImage(), "down"));
+        entities.add(new Balloom(9, 9, Sprite.balloom_left1.getFxImage(), "up"));
         entities.add(new Doll(5, 5, Sprite.doll_left1.getFxImage(), "down"));
+        entities.add(new Doll(26, 3, Sprite.doll_left1.getFxImage(), "left"));
         entities.add(new OneAl(5, 5, Sprite.oneal_left1.getFxImage(), "down"));
+        entities.add(new OneAl(25, 11, Sprite.oneal_left1.getFxImage(), "right"));
     }
 
 }

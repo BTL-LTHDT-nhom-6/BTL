@@ -3,20 +3,19 @@ package group6.entities.moveObjects;
 import group6.graphics.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
+import static group6.BombermanGame.*;
 import java.util.Random;
 
 public class Doll extends Enemy {
     public Doll(int xUnit, int yUnit, Image img, String direction) {
         super(xUnit, yUnit, img);
         this.direction = direction;
-        this.setSpeed(2);
+        this.setSpeed(1);
     }
 
     @Override
     protected void runningAnimation() {
-        animation++
-        ;
+        animation++;
         if (direction.equals("up") || direction.equals("right")) {
             _sprite = Sprite.movingSprite(Sprite.doll_right1, Sprite.doll_right2, Sprite.doll_right3, animation, time);
             this.setImg(_sprite.getFxImage());
@@ -40,8 +39,12 @@ public class Doll extends Enemy {
     @Override
     public void update() {
         if (!isAlive()) {
+
             if (timeDis > 0) timeDis--;
-            else this.setRemoved(true);
+            else {
+                this.setRemoved(true);
+                _point += 800;
+            }
             return;
         }
 
@@ -66,19 +69,49 @@ public class Doll extends Enemy {
 
             switch (direction) {
                 case "up":
-                    canMoveUp();
+                    if (this.getX() % 32  == 0 && this.getY() % 32 == 0) {
+                        if (this.getY() / 32 > 1) {
+                            timeToMove = 32 / getSpeed();
+                        } else {
+                            isMoving = false;
+                            break;
+                        }
+                    }
                     moveUp();
                     break;
                 case "right":
-                    canMoveRight();
+                    if (this.getX() % 32  == 0 && this.getY() % 32 == 0) {
+                        if (this.getX() / 32 < _width - 2) {
+                            timeToMove = 32 / getSpeed();
+                        } else {
+                            isMoving = false;
+                            break;
+                        }
+                    }
                     moveRight();
                     break;
                 case "left":
-                    canMoveLeft();
+                    if (this.getX() % 32  == 0 && this.getY() % 32 == 0) {
+                        if (this.getX() / 32 > 1) {
+                            timeToMove = 32 / getSpeed();
+                        } else {
+                            isMoving = false;
+                            break;
+                        }
+                    }
+
                     moveLeft();
                     break;
                 case "down":
-                    canMoveDown();
+                    if (this.getX() % 32  == 0 && this.getY() % 32 == 0) {
+                        if (this.getY() / 32 < _height - 2) {
+                            timeToMove = 32 / getSpeed();
+                        } else {
+                            isMoving = false;
+                            break;
+                        }
+                    }
+
                     moveDown();
                     break;
             }

@@ -30,10 +30,13 @@ public class FlameSegment extends Entity {
 
     @Override
     public void update() {
-
-
     }
 
+    /**
+     * Choose suitable flame segment images.
+     * @param direction flame direction.
+     * @param max define the last flame segment.
+     */
     public void loadSegment(String direction, boolean max) {
         switch (direction) {
             case "up":

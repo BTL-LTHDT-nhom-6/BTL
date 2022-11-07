@@ -14,23 +14,29 @@ import static group6.BombermanGame.*;
 
 public class LevelUp {
     private static ImageView statusGame;
-    public static Text level, time;
-    public static int timeNumber = 120;
-    public static boolean wait;
-    public static long waitingTime;
+    public static Text level, time, point;
+    public static int timeNum = 120;
+    public static boolean nextLevel;
+    public static long timeToExchange;
 
-    public static void createMenu(Group root) {
+    public static void createIndex(Group root) {
         level = new Text("Level: 1");
         level.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        level.setFill(Color.WHITE);
-        level.setX(416);
+        level.setFill(Color.YELLOW);
+        level.setX(384);
         level.setY(20);
 
         time = new Text("Times: 120");
         time.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        time.setFill(Color.WHITE);
-        time.setX(608);
+        time.setFill(Color.YELLOW);
+        time.setX(800);
         time.setY(20);
+
+        point = new Text("Point: 0");
+        point.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        point.setFill(Color.YELLOW);
+        point.setX(608);
+        point.setY(20);
 
         Image pauseGame = new Image("/textures/pauseGame.png");
         statusGame = new ImageView(pauseGame);
@@ -41,7 +47,7 @@ public class LevelUp {
 
 
         Pane pane = new Pane();
-        pane.getChildren().addAll(level, time, statusGame);
+        pane.getChildren().addAll(level, time, statusGame, point);
         pane.setMinSize(960, 32);
         pane.setMaxSize(960, 480);
         pane.setStyle("-fx-background-color: #353535");
@@ -51,13 +57,14 @@ public class LevelUp {
             if (bomberman.isAlive()) {
                 running = !running;
             }
-            updateMenu();
+            updateIndex();
         });
 
     }
 
-    public static void updateMenu() {
+    public static void updateIndex() {
         level.setText("Level: " + _level);
+        point.setText("Point: " + _point);
         if (bomberman.isAlive()) {
             if (running) {
                 Image pauseGame = new Image("/textures/pauseGame.png");
@@ -69,10 +76,15 @@ public class LevelUp {
         }
     }
 
-    public static void waitToLevelUp() {
-        if (wait) {
+    public static void nextLevel(Group root) {
+        if (nextLevel) {
+            Image waitToNext = new Image("/textures/up.png");
+            authorView = new ImageView(waitToNext);
+            authorView.setX(0);
+            authorView.setY(0);
+            root.getChildren().add(authorView);
             long now = System.currentTimeMillis();
-            if (now - waitingTime > 3000) {
+            if (now - timeToExchange > 3000) {
                 switch (_level) {
                     case 1:
                         new Level2();
@@ -80,7 +92,7 @@ public class LevelUp {
                     case 2:
                         new Level1();
                 }
-                wait = false;
+                nextLevel = false;
             }
         }
     }

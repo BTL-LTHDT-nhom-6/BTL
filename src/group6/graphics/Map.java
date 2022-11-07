@@ -14,9 +14,7 @@ import java.io.*;
 import java.util.StringTokenizer;
 
 public class Map {
-    public static int level = 1;
-    public static int _width = 0;
-    public static int _height = 0;
+
 
     public static void createMap(String map) {
         final File fileMap = new File(map);
@@ -25,7 +23,7 @@ public class Map {
             String line = br.readLine();
             String[] infoMap = line.split("\\s");
             try {
-                level = Integer.parseInt(infoMap[0]);
+                _level = Integer.parseInt(infoMap[0]);
                 _height = Integer.parseInt(infoMap[1]);
                 _width = Integer.parseInt(infoMap[2]);
             } catch (NumberFormatException e) {

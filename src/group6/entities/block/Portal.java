@@ -9,7 +9,7 @@ import static group6.BombermanGame.*;
 import static group6.BombermanGame.pos;
 
 public class Portal extends Entity {
-    public int timeToDis = 30;
+    public int timeToDis = 30; // time for clearing brick.
     public boolean destroyed = false;  // check if brick destroyed
     public int transition = 0; // iterator used to load brick explosion
 

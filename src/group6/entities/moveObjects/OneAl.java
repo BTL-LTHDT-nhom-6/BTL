@@ -42,7 +42,10 @@ public class OneAl extends Enemy {
     public void update() {
         if (!this.isAlive()) {
             if (timeDis > 0) timeDis--;
-            else this.setRemoved(true);
+            else {
+                this.setRemoved(true);
+                _point += 300;
+            }
             return;
         }
 

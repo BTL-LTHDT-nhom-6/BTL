@@ -28,6 +28,7 @@ public class Bomber extends Entity {
     public int getSpeed() {
         return bomberSpeed;
     }
+
     public void increaseSpeed() {
         bomberSpeed += 2;
     }
@@ -100,8 +101,8 @@ public class Bomber extends Entity {
             for (Enemy enemy : entities) {
                 int bx = enemy.getX();
                 int by = enemy.getY();
-                if (ax == bx && by - 32 <= ay && by + 32 >= ay
-                        || ay == by && bx - 32 <= ax && bx + 32 >= ax) {
+                if (ax == bx && by - 32 < ay && by + 32 > ay
+                        || ay == by && bx - 32 < ax && bx + 32 > ax) {
                     bomberman.setAlive(false);
                     break;
                 }

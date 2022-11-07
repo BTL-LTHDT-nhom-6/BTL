@@ -4,14 +4,15 @@ import group6.entities.block.Bomb;
 import group6.entities.block.Portal;
 import group6.entities.moveObjects.Bomber;
 import group6.entities.moveObjects.Enemy;
-import group6.level.Level1;
-import group6.level.LevelUp;
+import group6.level.*;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import group6.entities.Entity;
 import group6.graphics.Sprite;
@@ -27,6 +28,9 @@ public class BombermanGame extends Application {
     public static final int POS_BOMB = 4;
     public static final int POS_FLAME = 5;
     public static int _level = 1;
+    public static int _point = 0;
+    public static int _width = 0;
+    public static int _height = 0;
     
     private GraphicsContext gc;
     private Canvas canvas;
@@ -37,8 +41,8 @@ public class BombermanGame extends Application {
     public static int[][] pos;
     public static int[][] posBomb;
     public static boolean running = true;
-
-    private long lastTime;
+    private long previousTime;
+    public static ImageView authorView;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -53,7 +57,7 @@ public class BombermanGame extends Application {
 
         // Tao root container
         Group root = new Group();
-        LevelUp.createMenu(root);
+        LevelUp.createIndex(root);
         root.getChildren().add(canvas);
 
         // Tao scene
@@ -64,7 +68,7 @@ public class BombermanGame extends Application {
         stage.show();
 
         bomberman = new Bomber(1,1,"right", Sprite.player_right.getFxImage());
-        new Level1();
+        new Level2();
 
 
         scene.setOnKeyPressed(event -> {
@@ -89,7 +93,7 @@ public class BombermanGame extends Application {
             }
         });
 
-        lastTime = System.currentTimeMillis();
+        previousTime = System.currentTimeMillis();
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -97,19 +101,16 @@ public class BombermanGame extends Application {
                 if (running) {
                     render();
                     update();
-                    time();
-                    updateMenu();
+                    nextLevel(root);
+                    countDown();
+                    updateIndex();
                 }
             }
         };
         timer.start();
-
-
-
     }
 
-
-
+    
     public void update() {
         stillObjects.forEach(Entity::update);
         bomberman.update();
@@ -120,11 +121,11 @@ public class BombermanGame extends Application {
             if (entities.get(i).isRemoved()) entities.remove(i);
         }
 
-        if (entities.isEmpty() && Portal.intoPortal() && !wait) {
-            wait = true;
-            waitingTime = System.currentTimeMillis();
+        if (entities.isEmpty() && Portal.intoPortal() && !nextLevel) {
+            nextLevel = true;
+            timeToExchange = System.currentTimeMillis();
         }
-        waitToLevelUp();
+
     }
 
     public void render() {
@@ -136,14 +137,16 @@ public class BombermanGame extends Application {
 
     }
 
-    public void time() {
+    /**
+     * Set up maximum time for a level.
+     */
+    public void countDown() {
         long now = System.currentTimeMillis();
-        if (now - lastTime > 1000) {
-            lastTime = System.currentTimeMillis();
-
-            time.setText("Time: " + timeNumber);
-            timeNumber--;
-            if (timeNumber < 0)
+        if (now - previousTime > 1000) {
+            previousTime = System.currentTimeMillis();
+            time.setText("Time: " + timeNum);
+            timeNum--;
+            if (timeNum < 0)
                 bomberman.setAlive(false);
         }
     }

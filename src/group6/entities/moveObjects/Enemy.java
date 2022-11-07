@@ -44,6 +44,9 @@ public abstract class Enemy extends Entity {
         super(xUnit, yUnit, img);
     }
 
+    /**
+     * Detect collision in every dimension and set time to move.
+     */
     public void canMoveRight() {
         if (this.x % 32  == 0 && this.y % 32 == 0) {
             if (pos[this.x / 32+1][this.y / 32] == 0
@@ -82,7 +85,9 @@ public abstract class Enemy extends Entity {
         }
     }
 
-
+    /**
+     * Implement enemies' moving.
+     */
     public void moveRight() {
         if (timeToMove > 0) {
             this.x += speed;
