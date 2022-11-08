@@ -19,10 +19,13 @@ public class LevelUp {
     public static int timeNum = 120;
     public static boolean nextLevel;
     public static long timeToExchange;
+    public static Sound soundMenu;
 
 
     public static void createIndex(Group root) {
         //TODO : set up level index
+        soundMenu = new Sound(tfSound);
+        soundMenu.sound(("/Sound/menuPlay.wav"));
         level = new Text("Level: 1");
         level.setX(384);
         level.setY(20);
@@ -54,6 +57,13 @@ public class LevelUp {
 
         statusGame.setOnMouseClicked(event -> {
             if (check) {
+                if (soundAll.isBoolSound()) {
+                    soundAll.setBoolSound(false);
+                    soundAll.stopM();
+                } else {
+                    soundAll.setBoolSound(true);
+                    soundAll.startM();
+                }
                 running = !running;
             }
             updateIndex();

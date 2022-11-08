@@ -17,6 +17,7 @@ public class Level2 {
         check = true;
         timeNum = 90;
 
+        if (soundMenu != null) soundMenu.closeM();
         if (soundAll != null) soundAll.closeM();
         soundAll = new Sound(tfSound);
         soundAll.sound("/Sound/soundGame.wav");
