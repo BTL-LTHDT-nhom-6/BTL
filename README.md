@@ -67,6 +67,6 @@ Xem comment ở starter project
 5. Những ý tưởng khác sẽ được đánh giá và cộng điểm theo mức tương ứng
 
 ## Diagrams
-<img src="res/UML.png" alt="drawing" width="400"/>
+<img src="res/UML.png" alt="drawing" width="900"/>
 
 # BTL
