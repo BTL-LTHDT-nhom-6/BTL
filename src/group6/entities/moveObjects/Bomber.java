@@ -1,10 +1,13 @@
 package group6.entities.moveObjects;
 
+import group6.Sound;
 import group6.entities.Entity;
 import group6.entities.block.Bomb;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import group6.graphics.Sprite;
+
+import java.awt.*;
 import java.util.Iterator;
 import static group6.BombermanGame.*;
 
@@ -61,10 +64,7 @@ public class Bomber extends Entity {
                 case "left": moveLeft();break;
             }
         } else {
-            running = false;
-            Image gameOver = new Image("/gameOver.png");
-            gameView.setImage(gameOver);
-            exit.setImage(new Image("/exitButton1.png"));
+            endGame();
         }
     }
 
@@ -80,6 +80,23 @@ public class Bomber extends Entity {
             check = false;
         }
 
+    }
+
+    public void endGame() {
+        running = false;
+
+        if (tfSound) {
+            soundAll.stopM();
+        }
+        Sound over = new Sound(tfSound);
+        over.sound("/Sound/die.wav");
+
+        Image gameOver = new Image("/gameOver.png");
+        gameView.setImage(gameOver);
+        exit.setImage(new Image("/exit-02.png"));
+        exit.setY(350);
+        start.setImage(new Image("/replay-02.png"));
+        start.setY(350);
     }
 
     public  void putBomb() {

@@ -1,5 +1,6 @@
 package group6.level;
 
+import group6.Sound;
 import group6.entities.moveObjects.Doll;
 import group6.entities.moveObjects.OneAl;
 import group6.entities.moveObjects.Balloom;
@@ -15,6 +16,11 @@ public class Level2 {
         entities.clear();
         check = true;
         timeNum = 90;
+
+        if (soundAll != null) soundAll.closeM();
+        soundAll = new Sound(tfSound);
+        soundAll.sound("/Sound/soundGame.wav");
+
         Image transparent = new Image("/transparent.png");
         gameView.setImage(transparent);
 

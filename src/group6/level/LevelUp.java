@@ -24,24 +24,25 @@ public class LevelUp {
     public static void createIndex(Group root) {
         //TODO : set up level index
         level = new Text("Level: 1");
-        level.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        level.setFill(Color.YELLOW);
         level.setX(384);
         level.setY(20);
+        level.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        level.setFill(Color.YELLOW);
 
         //TODO : set up countdown index
         time = new Text("Times: 120");
-        time.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        time.setFill(Color.YELLOW);
         time.setX(800);
         time.setY(20);
+        time.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        time.setFill(Color.YELLOW);
 
         //TODO : set up player's points index
         point = new Text("Point: 0");
-        point.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        point.setFill(Color.YELLOW);
         point.setX(608);
         point.setY(20);
+        point.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        point.setFill(Color.YELLOW);
+
 
         //TODO : set up play/pause button
         Image pauseGame = new Image("/textures/newGame.png");
@@ -54,9 +55,6 @@ public class LevelUp {
         statusGame.setOnMouseClicked(event -> {
             if (check) {
                 running = !running;
-            } else {
-                new Level1();
-                running = true;
             }
             updateIndex();
         });
@@ -67,9 +65,15 @@ public class LevelUp {
         sound.setY(4);
 
         sound.setOnMouseClicked(event -> {
-            soundOn = !soundOn;
-            if (soundOn) sound.setImage(new Image("/sprites/soundon-02.png"));
-            else sound.setImage(new Image("/sprites/soundoff-02.png"));
+            if (soundAll.isBoolSound()) {
+                soundAll.setBoolSound(false);
+                soundAll.stopM();
+                sound.setImage(new Image("/sprites/soundoff-02.png"));
+                return;
+            }
+            soundAll.setBoolSound(true);
+            soundAll.startM();
+            sound.setImage(new Image("/sprites/soundon-02.png"));
         });
 
         Pane pane = new Pane();
@@ -91,6 +95,7 @@ public class LevelUp {
             } else {
                 Image playGame = new Image("/textures/playGame.png");
                 statusGame.setImage(playGame);
+                soundAll.stopM();
             }
         } else {
             Image newGame = new Image("/textures/newGame.png");
@@ -106,15 +111,15 @@ public class LevelUp {
             gameView.setImage(new Image("/levelup.png"));
             long currentTime = System.currentTimeMillis();
             if (currentTime - timeToExchange > 2000) {
-                Sound sound = new Sound(soundOn);
+                Sound sound = new Sound(tfSound);
                 switch (_level) {
                     case 1:
+                        sound.sound("/Sound/level_complete.wav");
                         new Level2();
-                        sound.soundNextLevel();
                         break;
                     case 2:
+                        sound.sound("/Sound/level_complete.wav");
                         new Level1();
-                        sound.soundNextLevel();
                 }
                 nextLevel = false;
             }

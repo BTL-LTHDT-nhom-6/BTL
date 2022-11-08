@@ -1,5 +1,6 @@
 package group6.entities.item;
 
+import group6.Sound;
 import group6.entities.Entity;
 import group6.entities.block.Bomb;
 import group6.graphics.Sprite;
@@ -45,6 +46,8 @@ public class FlameItem extends Entity {
         if (!this.getItem) {
             if (bomberman.getX() == this.getX() && bomberman.getY() == this.getY()) {
                 this.getItem = true;
+                Sound a = new Sound(tfSound);
+                a.sound("/Sound/item-39146.wav");
                 Bomb.addBombRadius();
             }
         }

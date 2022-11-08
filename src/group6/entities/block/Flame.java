@@ -5,7 +5,7 @@ import group6.entities.Entity;
 import group6.entities.moveObjects.Enemy;
 import javafx.scene.canvas.GraphicsContext;
 import static group6.BombermanGame.*;
-import static group6.BombermanGame.soundOn;
+import static group6.BombermanGame.tfSound;
 
 public class Flame extends Entity {
     protected String _direction;
@@ -18,8 +18,8 @@ public class Flame extends Entity {
         _direction = direction;
         _radius = radius;
         drawFlameSegments();
-        Sound a = new Sound(soundOn);
-        a.soundBomb();
+        Sound a = new Sound(tfSound);
+        a.sound("/Sound/Explosion7.wav");
     }
 
     @Override

@@ -18,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import group6.entities.Entity;
 import group6.graphics.Sprite;
-import group6.graphics.Map;
 import static group6.level.LevelUp.*;
 
 import java.util.ArrayList;
@@ -48,19 +47,16 @@ public class BombermanGame extends Application {
     public static boolean check = false;
     public static ImageView start;
     public static ImageView exit;
-    public static boolean soundOn = true;
-
+    public static boolean tfSound = true;
+    public static Sound soundAll;
 
     public static void main(String[] args) {
-        Sound sound = new Sound(soundOn);
-        sound.soundPlayLV2();
         Application.launch(BombermanGame.class);
-
     }
 
     @Override
     public void start(Stage stage) {
-        // Tao Canvas
+        // Tao Canvas, background and start/exit button
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         canvas.setTranslateY(32);
         gc = canvas.getGraphicsContext2D();
@@ -68,12 +64,13 @@ public class BombermanGame extends Application {
         gameView = new ImageView(author);
         gameView.setX(0);
         gameView.setY(0);
-        start = new ImageView(new Image("/startButton1.png"));
-        start.setX(215);
+        start = new ImageView(new Image("/play-02.png"));
+        start.setX(224);
         start.setY(250);
-        exit = new ImageView(new Image("/exitButton1.png"));
-        exit.setX(608);
+        exit = new ImageView(new Image("/exit-02.png"));
+        exit.setX(576);
         exit.setY(250);
+
 
         // Tao root container
         Group root = new Group();
@@ -118,6 +115,7 @@ public class BombermanGame extends Application {
 
 
         start.setOnMouseClicked(event -> {
+            _point = 0;
             new Level1();
             running = true;
         });
